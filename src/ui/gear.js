@@ -11,9 +11,13 @@ const LAYOUT = [
 ];
 
 let container = null;
+let hpBarFill = null;
+let hpText = null;
 
 export function initGear() {
   container = document.getElementById("gear-slots");
+  hpBarFill = document.getElementById("hp-bar-fill");
+  hpText = document.getElementById("hp-text");
 }
 
 export function renderGear(state) {
@@ -62,6 +66,25 @@ export function renderGear(state) {
       container.appendChild(cell);
     }
   }
+}
+
+export function renderHP(state) {
+  if (!hpBarFill || !hpText) return;
+
+  const { hp, maxHp } = state.player;
+  const pct = Math.max(0, Math.min(100, (hp / maxHp) * 100));
+
+  hpBarFill.style.width = `${pct}%`;
+
+  if (pct > 50) {
+    hpBarFill.className = "h-full rounded-full transition-all duration-300 bg-emerald-500";
+  } else if (pct > 25) {
+    hpBarFill.className = "h-full rounded-full transition-all duration-300 bg-yellow-500";
+  } else {
+    hpBarFill.className = "h-full rounded-full transition-all duration-300 bg-red-500";
+  }
+
+  hpText.textContent = `${hp} / ${maxHp}`;
 }
 
 export function showGear() {

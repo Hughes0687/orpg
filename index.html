@@ -13,10 +13,16 @@
 
     <div class="flex-1 flex overflow-hidden relative">
 
-      <div
-        id="output"
-        class="flex-1 overflow-y-auto px-4 py-3 whitespace-pre-wrap text-sm leading-relaxed"
-      ></div>
+      <div class="flex-1 flex flex-col overflow-hidden relative">
+        <div
+          id="output"
+          class="flex-1 overflow-y-auto px-4 py-3 whitespace-pre-wrap text-sm leading-relaxed"
+        ></div>
+
+        <div id="action-bar" class="hidden shrink-0 border-t border-gray-800 bg-gray-900/60 px-4 py-2"></div>
+
+        <div id="inventory-overlay" class="hidden absolute inset-0 z-20"></div>
+      </div>
 
       <div id="sidebar" class="hidden shrink-0 w-56 border-l border-gray-800 bg-gray-900/80 flex flex-col items-center overflow-y-auto">
 
@@ -37,6 +43,18 @@
             id="gear-slots"
             class="grid grid-cols-3 gap-1 place-items-center"
           ></div>
+        </div>
+
+        <div class="w-full border-t border-gray-800"></div>
+
+        <div id="hp-panel" class="w-full flex flex-col items-center pt-3 pb-3 gap-1.5 px-3">
+          <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Health</span>
+          <div class="w-full flex flex-col gap-1">
+            <div class="w-full h-2.5 rounded-full bg-gray-800 overflow-hidden">
+              <div id="hp-bar-fill" class="h-full rounded-full transition-all duration-300" style="width: 100%;"></div>
+            </div>
+            <span id="hp-text" class="text-[11px] text-gray-400 text-center"></span>
+          </div>
         </div>
 
       </div>

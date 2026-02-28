@@ -29,6 +29,7 @@ export const items = {
     name: "Rusty Key",
     type: "misc",
     description: "An old iron key, covered in rust.",
+    color: "#b45309",
   },
   "wooden staff": {
     name: "Wooden Staff",
@@ -36,11 +37,13 @@ export const items = {
     slot: "chest",
     description: "A sturdy wooden staff.",
     stats: { strength: 1 },
+    color: "#a16207",
   },
   "torn scroll": {
     name: "Torn Scroll",
     type: "misc",
     description: "A scroll with faded writing.",
+    color: "#e5d5b0",
   },
   "leather helmet": {
     name: "Leather Helmet",
@@ -48,6 +51,7 @@ export const items = {
     slot: "helmet",
     description: "A simple leather cap.",
     stats: { constitution: 1 },
+    color: "#b87333",
   },
   "iron ring": {
     name: "Iron Ring",
@@ -55,6 +59,7 @@ export const items = {
     slot: "ring",
     description: "A plain iron band.",
     stats: { strength: 1 },
+    color: "#9ca3af",
   },
   "wool cloak": {
     name: "Wool Cloak",
@@ -62,6 +67,7 @@ export const items = {
     slot: "shoulders",
     description: "A heavy wool cloak.",
     stats: { constitution: 2 },
+    color: "#d1c4a9",
   },
   "traveler's boots": {
     name: "Traveler's Boots",
@@ -69,6 +75,7 @@ export const items = {
     slot: "boots",
     description: "Well-worn leather boots.",
     stats: { dexterity: 1 },
+    color: "#8b5e3c",
   },
   "cloth pants": {
     name: "Cloth Pants",
@@ -76,6 +83,7 @@ export const items = {
     slot: "pants",
     description: "Simple cloth trousers.",
     stats: { constitution: 1 },
+    color: "#c8b88a",
   },
   "rope belt": {
     name: "Rope Belt",
@@ -83,6 +91,7 @@ export const items = {
     slot: "belt",
     description: "A rough rope belt.",
     stats: { strength: 1 },
+    color: "#c9a96e",
   },
   "leather gloves": {
     name: "Leather Gloves",
@@ -90,6 +99,7 @@ export const items = {
     slot: "gloves",
     description: "Supple leather gloves.",
     stats: { dexterity: 1 },
+    color: "#a0522d",
   },
   "bone amulet": {
     name: "Bone Amulet",
@@ -97,6 +107,7 @@ export const items = {
     slot: "amulet",
     description: "A carved bone pendant.",
     stats: { wisdom: 2 },
+    color: "#e8dcc8",
   },
   "leather vest": {
     name: "Leather Vest",
@@ -104,6 +115,7 @@ export const items = {
     slot: "chest",
     description: "A sturdy leather vest.",
     stats: { constitution: 2 },
+    color: "#8b6914",
   },
 };
 
