@@ -1,4 +1,5 @@
 import { world } from "./world.js";
+import { formatStats } from "./characters.js";
 
 const DIRECTION_ALIASES = {
   n: "north",
@@ -83,8 +84,11 @@ export const commands = {
   status(state) {
     const { player } = state;
     return [
-      `Name: ${player.name}`,
-      `HP:   ${player.hp}/${player.maxHp}`,
+      `  Name:  ${player.name}`,
+      `  Class: ${player.class}`,
+      `  HP:    ${player.hp}/${player.maxHp}`,
+      "",
+      formatStats(player.stats),
     ].join("\n");
   },
 

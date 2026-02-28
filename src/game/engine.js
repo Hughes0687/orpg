@@ -1,7 +1,13 @@
-import { createGameState } from "./state.js";
+import { saveCharacter } from "./state.js";
 import { parseCommand, commands } from "./commands.js";
 
-let state = createGameState();
+let state = null;
+
+export function startGame(gameState) {
+  state = gameState;
+  saveCharacter(state);
+  return getWelcome();
+}
 
 export function processInput(input) {
   const { command, args } = parseCommand(input);
@@ -13,16 +19,21 @@ export function processInput(input) {
     return `Unknown command: "${command}". Type "help" for a list of commands.`;
   }
 
-  return handler(state, args);
+  const result = handler(state, args);
+  saveCharacter(state);
+  return result;
 }
 
-export function getWelcome() {
+function getWelcome() {
   return [
+    "",
     "========================================",
     "          ORPG - A Text Adventure       ",
     "========================================",
     "",
-    'Type "help" to see available commands.',
+    `  Welcome, ${state.player.name} the ${state.player.class}.`,
+    "",
+    '  Type "help" to see available commands.',
     "",
     commands.look(state),
   ].join("\n");

@@ -33,6 +33,10 @@ export function onSubmit(callback) {
   input.focus();
 }
 
+export function clearOutput() {
+  output.innerHTML = "";
+}
+
 export function focusInput() {
   input.focus();
 }
