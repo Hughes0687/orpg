@@ -7,6 +7,9 @@ export const world = {
       north: "town_square",
     },
     items: ["rusty key"],
+    coords: { x: 1, y: 2 },
+    icon: "🍺",
+    type: "tavern",
   },
 
   town_square: {
@@ -19,6 +22,9 @@ export const world = {
       west: "old_tower",
     },
     items: [],
+    coords: { x: 1, y: 1 },
+    icon: "⛲",
+    type: "town",
   },
 
   forest_path: {
@@ -29,6 +35,9 @@ export const world = {
       west: "town_square",
     },
     items: ["wooden staff"],
+    coords: { x: 2, y: 1 },
+    icon: "🌲",
+    type: "forest",
   },
 
   old_tower: {
@@ -39,5 +48,28 @@ export const world = {
       east: "town_square",
     },
     items: ["torn scroll"],
+    coords: { x: 0, y: 1 },
+    icon: "🏰",
+    type: "dungeon",
   },
 };
+
+export function getMapBounds() {
+  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+  for (const room of Object.values(world)) {
+    minX = Math.min(minX, room.coords.x);
+    minY = Math.min(minY, room.coords.y);
+    maxX = Math.max(maxX, room.coords.x);
+    maxY = Math.max(maxY, room.coords.y);
+  }
+  return { minX, minY, maxX, maxY };
+}
+
+export function getRoomAt(x, y) {
+  for (const [id, room] of Object.entries(world)) {
+    if (room.coords.x === x && room.coords.y === y) {
+      return { id, ...room };
+    }
+  }
+  return null;
+}

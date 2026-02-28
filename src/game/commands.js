@@ -51,6 +51,9 @@ export const commands = {
     }
 
     state.currentRoom = nextRoomId;
+    if (!state.visitedRooms.includes(nextRoomId)) {
+      state.visitedRooms.push(nextRoomId);
+    }
     return commands.look(state);
   },
 

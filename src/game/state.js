@@ -13,6 +13,7 @@ export function createGameState(name, classId) {
       inventory: [],
     },
     currentRoom: "tavern",
+    visitedRooms: ["tavern"],
     gameOver: false,
   };
 }

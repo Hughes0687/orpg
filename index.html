@@ -11,10 +11,23 @@
   </head>
   <body class="h-full bg-gray-950 text-gray-200 font-mono flex flex-col overflow-hidden" style="font-family: 'JetBrains Mono', monospace;">
 
-    <div
-      id="output"
-      class="flex-1 overflow-y-auto px-4 py-3 whitespace-pre-wrap text-sm leading-relaxed scrollbar-thin"
-    ></div>
+    <div class="flex-1 flex overflow-hidden relative">
+
+      <div
+        id="output"
+        class="flex-1 overflow-y-auto px-4 py-3 whitespace-pre-wrap text-sm leading-relaxed"
+      ></div>
+
+      <div id="minimap-panel" class="hidden shrink-0 w-56 border-l border-gray-800 bg-gray-900/80 flex flex-col items-center pt-3 pb-2 gap-2">
+        <span class="text-[10px] uppercase tracking-widest text-gray-500 font-bold">Map</span>
+        <div
+          id="minimap"
+          class="grid place-items-center"
+        ></div>
+        <span id="minimap-label" class="text-[11px] text-gray-400 text-center px-2 mt-1 truncate w-full"></span>
+      </div>
+
+    </div>
 
     <div class="shrink-0 border-t border-gray-800 bg-gray-900 px-4 py-3 flex items-center gap-2">
       <span class="text-emerald-500 font-bold select-none">&gt;</span>

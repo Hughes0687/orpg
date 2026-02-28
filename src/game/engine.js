@@ -24,6 +24,10 @@ export function processInput(input) {
   return result;
 }
 
+export function getState() {
+  return state;
+}
+
 function getWelcome() {
   return [
     "",
