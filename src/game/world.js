@@ -6,7 +6,7 @@ export const world = {
     exits: {
       north: "town_square",
     },
-    items: ["rusty key"],
+    items: ["rusty key", "leather helmet"],
     coords: { x: 1, y: 2 },
     icon: "🍺",
     type: "tavern",
@@ -34,7 +34,7 @@ export const world = {
     exits: {
       west: "town_square",
     },
-    items: ["wooden staff"],
+    items: ["wooden staff", "traveler's boots"],
     coords: { x: 2, y: 1 },
     icon: "🌲",
     type: "forest",
@@ -47,7 +47,7 @@ export const world = {
     exits: {
       east: "town_square",
     },
-    items: ["torn scroll"],
+    items: ["torn scroll", "iron ring", "bone amulet"],
     coords: { x: 0, y: 1 },
     icon: "🏰",
     type: "dungeon",

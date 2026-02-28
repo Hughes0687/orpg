@@ -102,12 +102,12 @@ export function renderMinimap(state) {
   }
 }
 
-export function showMinimap() {
-  const panel = document.getElementById("minimap-panel");
-  if (panel) panel.classList.remove("hidden");
+export function showSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  if (sidebar) sidebar.classList.remove("hidden");
 }
 
-export function hideMinimap() {
-  const panel = document.getElementById("minimap-panel");
-  if (panel) panel.classList.add("hidden");
+export function hideSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  if (sidebar) sidebar.classList.add("hidden");
 }

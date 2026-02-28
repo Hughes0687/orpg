@@ -1,5 +1,6 @@
 import { world } from "./world.js";
 import { formatStats } from "./characters.js";
+import { getItem, isEquippable, getEquipSlot, SLOT_LABELS } from "./items.js";
 
 const DIRECTION_ALIASES = {
   n: "north",
@@ -95,18 +96,102 @@ export const commands = {
     ].join("\n");
   },
 
+  equip(state, args) {
+    if (args.length === 0) {
+      return "Equip what? Usage: equip <item name>";
+    }
+
+    const itemName = args.join(" ");
+    const invIndex = state.player.inventory.findIndex(
+      (i) => i.toLowerCase() === itemName.toLowerCase()
+    );
+
+    if (invIndex === -1) {
+      return `You don't have "${itemName}" in your inventory.`;
+    }
+
+    const actualName = state.player.inventory[invIndex];
+
+    if (!isEquippable(actualName)) {
+      return `${actualName} cannot be equipped.`;
+    }
+
+    let slot = getEquipSlot(actualName);
+
+    if (slot === "ring") {
+      slot = !state.player.equipment.ring1 ? "ring1" : "ring2";
+    }
+
+    const currentlyEquipped = state.player.equipment[slot];
+    if (currentlyEquipped) {
+      state.player.inventory.push(currentlyEquipped);
+    }
+
+    state.player.inventory.splice(invIndex, 1);
+    state.player.equipment[slot] = actualName;
+
+    const label = SLOT_LABELS[slot];
+    let msg = `You equip ${actualName} (${label}).`;
+    if (currentlyEquipped) {
+      msg += ` ${currentlyEquipped} returned to inventory.`;
+    }
+    return msg;
+  },
+
+  unequip(state, args) {
+    if (args.length === 0) {
+      return "Unequip what? Usage: unequip <slot or item name>";
+    }
+
+    const query = args.join(" ").toLowerCase();
+
+    let targetSlot = null;
+    for (const [slot, equipped] of Object.entries(state.player.equipment)) {
+      if (!equipped) continue;
+      if (slot.toLowerCase() === query || equipped.toLowerCase() === query) {
+        targetSlot = slot;
+        break;
+      }
+    }
+
+    if (!targetSlot) {
+      return `Nothing matching "${query}" is equipped.`;
+    }
+
+    const removed = state.player.equipment[targetSlot];
+    state.player.equipment[targetSlot] = null;
+    state.player.inventory.push(removed);
+
+    return `You unequip ${removed}.`;
+  },
+
+  gear(state) {
+    const entries = Object.entries(state.player.equipment);
+    const lines = ["Equipment:"];
+    for (const [slot, item] of entries) {
+      const label = SLOT_LABELS[slot].padEnd(10);
+      lines.push(`  ${label} ${item || "-- empty --"}`);
+    }
+    return lines.join("\n");
+  },
+
   help() {
     return [
       "Available commands:",
-      "  look          - Examine your surroundings",
-      "  go <dir>      - Move in a direction (north/south/east/west or n/s/e/w)",
-      "  take <item>   - Pick up an item",
-      "  inventory     - Check what you're carrying",
-      "  status        - View your stats",
-      "  help          - Show this message",
+      "  look            - Examine your surroundings",
+      "  go <dir>        - Move in a direction (n/s/e/w)",
+      "  take <item>     - Pick up an item",
+      "  inventory       - Check what you're carrying",
+      "  equip <item>    - Equip a gear item",
+      "  unequip <slot>  - Unequip a gear slot or item",
+      "  gear            - View equipped gear",
+      "  status          - View your stats",
+      "  help            - Show this message",
     ].join("\n");
   },
 };
 
 commands.l = commands.look;
 commands.i = commands.inventory;
+commands.eq = commands.equip;
+commands.g = commands.gear;
