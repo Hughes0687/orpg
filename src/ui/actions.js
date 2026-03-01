@@ -1,4 +1,5 @@
 import { world } from "../game/world.js";
+import { isInCombat } from "../game/combat.js";
 
 const DIRECTIONS = ["north", "south", "east", "west"];
 const DIR_LABELS = { north: "N", south: "S", east: "E", west: "W" };
@@ -7,6 +8,8 @@ let bar = null;
 let dirButtons = {};
 let onAction = null;
 let inventoryToggleCb = null;
+let fleeBtn = null;
+let attackBtn = null;
 
 export function initActions(actionCb, inventoryCb) {
   bar = document.getElementById("action-bar");
@@ -55,6 +58,16 @@ export function initActions(actionCb, inventoryCb) {
   actions.appendChild(actionBtn("Inventory", "🎒", () => inventoryToggleCb()));
   actions.appendChild(actionBtn("Help", "❓", () => onAction("help")));
 
+  attackBtn = actionBtn("Attack", "⚔️", () => onAction("attack"));
+  attackBtn.classList.add("hidden");
+  actions.appendChild(attackBtn);
+
+  fleeBtn = actionBtn("Flee", "🏃", () => onAction("flee"));
+  fleeBtn.classList.add("hidden");
+  fleeBtn.classList.remove("hover:bg-emerald-800/40", "hover:border-emerald-600/60", "hover:text-emerald-300");
+  fleeBtn.classList.add("hover:bg-red-800/40", "hover:border-red-600/60", "hover:text-red-300");
+  actions.appendChild(fleeBtn);
+
   wrapper.appendChild(actions);
   bar.appendChild(wrapper);
 }
@@ -64,17 +77,21 @@ export function renderActions(state) {
 
   const room = world[state.currentRoom];
   const exits = room ? room.exits : {};
+  const inCombat = isInCombat();
 
   for (const dir of DIRECTIONS) {
     const btn = dirButtons[dir];
     if (!btn) continue;
-    const available = !!exits[dir];
+    const available = !!exits[dir] && !inCombat;
     btn.disabled = !available;
     btn.classList.toggle("opacity-30", !available);
     btn.classList.toggle("cursor-not-allowed", !available);
     btn.classList.toggle("hover:bg-emerald-800/40", available);
     btn.classList.toggle("hover:border-emerald-600/60", available);
   }
+
+  if (fleeBtn) fleeBtn.classList.toggle("hidden", !inCombat);
+  if (attackBtn) attackBtn.classList.toggle("hidden", inCombat || room?.type !== "combat");
 }
 
 export function showActions() {

@@ -61,7 +61,7 @@ export function createIntro(onComplete) {
       lines.push(`  [${cls.index}]  ${cls.name}`);
       lines.push(`      ${cls.description}`);
       lines.push(formatStats(cls.stats));
-      lines.push(`      HP: ${cls.hp}`);
+      lines.push(`      HP: ${cls.hp}  Mana: ${cls.mana}`);
       lines.push("");
     }
     lines.push("Enter your choice:");
@@ -81,7 +81,7 @@ export function createIntro(onComplete) {
       `  Class: ${cls.name}`,
       "",
       formatStats(cls.stats),
-      `  HP: ${cls.hp}`,
+      `  HP: ${cls.hp}  Mana: ${cls.mana}`,
       "",
       "  [1]  Start Adventure",
       "  [2]  Start Over",
@@ -100,7 +100,7 @@ export function createIntro(onComplete) {
       "",
     ];
     saves.forEach((save, i) => {
-      lines.push(`  [${i + 1}]  ${save.player.name} - Lv.1 ${save.player.class} (HP: ${save.player.hp}/${save.player.maxHp})`);
+      lines.push(`  [${i + 1}]  ${save.player.name} - Lv.${save.player.level || 1} ${save.player.class} (HP: ${save.player.hp}/${save.player.maxHp})`);
     });
     lines.push("", "  [0]  Back", "", "Enter your choice:");
     return lines.join("\n");

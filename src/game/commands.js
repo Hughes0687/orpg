@@ -1,6 +1,8 @@
 import { world } from "./world.js";
 import { formatStats } from "./characters.js";
 import { getItem, isEquippable, getEquipSlot, SLOT_LABELS } from "./items.js";
+import { isInCombat, fleeCombat } from "./combat.js";
+import { allocatePoints, xpForLevel } from "./leveling.js";
 
 const DIRECTION_ALIASES = {
   n: "north",
@@ -39,6 +41,10 @@ export const commands = {
   },
 
   go(state, args) {
+    if (isInCombat()) {
+      return "You can't leave while in combat! Use \"flee\" to escape.";
+    }
+
     if (args.length === 0) {
       return "Go where? Specify a direction (north, south, east, west).";
     }
@@ -87,13 +93,21 @@ export const commands = {
 
   status(state) {
     const { player } = state;
-    return [
+    const needed = xpForLevel(player.level);
+    const lines = [
       `  Name:  ${player.name}`,
       `  Class: ${player.class}`,
+      `  Level: ${player.level}`,
+      `  XP:    ${player.xp}/${needed}`,
       `  HP:    ${player.hp}/${player.maxHp}`,
+      `  Mana:  ${player.mana}/${player.maxMana}`,
       "",
       formatStats(player.stats),
-    ].join("\n");
+    ];
+    if (player.statPoints > 0) {
+      lines.push("", `  ** ${player.statPoints} unspent stat point${player.statPoints > 1 ? "s" : ""} ** (use: allocate <stat> [amount])`);
+    }
+    return lines.join("\n");
   },
 
   equip(state, args) {
@@ -175,6 +189,33 @@ export const commands = {
     return lines.join("\n");
   },
 
+  allocate(state, args) {
+    if (args.length === 0) {
+      return "Usage: allocate <stat> [amount]\nStats: str, dex, con, int, wis, cha";
+    }
+    const stat = args[0];
+    const amount = args[1] ? parseInt(args[1], 10) : 1;
+    if (isNaN(amount) || amount < 1) {
+      return "Amount must be a positive number.";
+    }
+    return allocatePoints(state.player, stat, amount);
+  },
+
+  flee(state) {
+    return fleeCombat(state);
+  },
+
+  attack(state) {
+    const room = world[state.currentRoom];
+    if (room.type !== "combat") {
+      return "There's nothing to fight here.";
+    }
+    if (isInCombat()) {
+      return "You're already in combat!";
+    }
+    return "__START_COMBAT__";
+  },
+
   help() {
     return [
       "Available commands:",
@@ -186,6 +227,9 @@ export const commands = {
       "  unequip <slot>  - Unequip a gear slot or item",
       "  gear            - View equipped gear",
       "  status          - View your stats",
+      "  allocate <stat> - Spend stat points (str/dex/con/int/wis/cha)",
+      "  attack          - Engage a new enemy (combat zones)",
+      "  flee            - Escape from combat",
       "  help            - Show this message",
     ].join("\n");
   },

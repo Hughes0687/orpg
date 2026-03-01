@@ -9,6 +9,11 @@ export function createGameState(name, classId) {
       classId,
       hp: cls.hp,
       maxHp: cls.hp,
+      mana: cls.mana,
+      maxMana: cls.mana,
+      level: 1,
+      xp: 0,
+      statPoints: 0,
       stats: { ...cls.stats },
       inventory: [],
       equipment: {

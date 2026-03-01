@@ -1,4 +1,15 @@
 export const world = {
+  outskirts: {
+    name: "The Outskirts",
+    description:
+      "Beyond the town gates, the land grows wild and dangerous. Trampled grass and scattered bones hint at frequent skirmishes. Creatures from the dark lands roam here freely.",
+    exits: { south: "town_square" },
+    items: [],
+    coords: { x: 1, y: 0 },
+    icon: "⚔️",
+    type: "combat",
+  },
+
   tavern: {
     name: "The Rusty Flagon",
     description:
@@ -15,11 +26,12 @@ export const world = {
   town_square: {
     name: "Town Square",
     description:
-      "The town square stretches out before you, cobblestones worn smooth by countless footsteps. A weathered fountain stands at the center, its water long dried up. To the south lies the tavern, and a dark forest path leads east. A crumbling stone tower looms to the west.",
+      "The town square stretches out before you, cobblestones worn smooth by countless footsteps. A weathered fountain stands at the center, its water long dried up. To the south lies the tavern, and a dark forest path leads east. A crumbling stone tower looms to the west. The northern gate leads to the wild outskirts.",
     exits: {
       south: "tavern",
       east: "forest_path",
       west: "old_tower",
+      north: "outskirts",
     },
     items: [],
     coords: { x: 1, y: 1 },

@@ -1,4 +1,5 @@
 import { SLOT_LABELS, SLOT_ICONS, getItem } from "../game/items.js";
+import { xpForLevel } from "../game/leveling.js";
 
 const LAYOUT = [
   [null,    "helmet",    null],
@@ -13,11 +14,21 @@ const LAYOUT = [
 let container = null;
 let hpBarFill = null;
 let hpText = null;
+let manaBarFill = null;
+let manaText = null;
+let xpBarFill = null;
+let xpText = null;
+let levelText = null;
 
 export function initGear() {
   container = document.getElementById("gear-slots");
   hpBarFill = document.getElementById("hp-bar-fill");
   hpText = document.getElementById("hp-text");
+  manaBarFill = document.getElementById("mana-bar-fill");
+  manaText = document.getElementById("mana-text");
+  xpBarFill = document.getElementById("xp-bar-fill");
+  xpText = document.getElementById("xp-text");
+  levelText = document.getElementById("level-text");
 }
 
 export function renderGear(state) {
@@ -85,6 +96,28 @@ export function renderHP(state) {
   }
 
   hpText.textContent = `${hp} / ${maxHp}`;
+}
+
+export function renderXP(state) {
+  if (!xpBarFill || !xpText || !levelText) return;
+
+  const { level, xp } = state.player;
+  const needed = xpForLevel(level);
+  const pct = Math.max(0, Math.min(100, (xp / needed) * 100));
+
+  xpBarFill.style.width = `${pct}%`;
+  xpText.textContent = `${xp} / ${needed}`;
+  levelText.textContent = level;
+}
+
+export function renderMana(state) {
+  if (!manaBarFill || !manaText) return;
+
+  const { mana, maxMana } = state.player;
+  const pct = Math.max(0, Math.min(100, (mana / maxMana) * 100));
+
+  manaBarFill.style.width = `${pct}%`;
+  manaText.textContent = `${mana} / ${maxMana}`;
 }
 
 export function showGear() {

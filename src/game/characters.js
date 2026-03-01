@@ -4,18 +4,27 @@ export const classes = {
     description: "A battle-hardened fighter. Strong and tough, but not particularly quick or clever.",
     stats: { strength: 14, dexterity: 10, constitution: 14, intelligence: 8, wisdom: 10, charisma: 10 },
     hp: 120,
+    mana: 40,
+    hpPerLevel: 10,
+    manaPerLevel: 2,
   },
   mage: {
     name: "Mage",
     description: "A scholar of the arcane arts. Brilliant and perceptive, but physically frail.",
     stats: { strength: 6, dexterity: 10, constitution: 8, intelligence: 16, wisdom: 14, charisma: 10 },
     hp: 70,
+    mana: 120,
+    hpPerLevel: 4,
+    manaPerLevel: 8,
   },
   rogue: {
     name: "Rogue",
     description: "A cunning shadow-dweller. Quick and charming, but not one for a fair fight.",
     stats: { strength: 8, dexterity: 16, constitution: 10, intelligence: 12, wisdom: 10, charisma: 14 },
     hp: 90,
+    mana: 70,
+    hpPerLevel: 6,
+    manaPerLevel: 4,
   },
 };
 
