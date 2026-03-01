@@ -3,7 +3,7 @@ import { printLine, printCommand, onSubmit, onItemClick, focusInput, clearOutput
 import { processInput, startGame, getState } from "./game/engine.js";
 import { createIntro } from "./game/intro.js";
 import { initMinimap, renderMinimap, showSidebar } from "./ui/minimap.js";
-import { initGear, renderGear, renderHP, renderMana, renderXP } from "./ui/gear.js";
+import { initGear, renderGear, renderHP, renderMana, renderXP, renderStats } from "./ui/gear.js";
 import { initActions, renderActions, showActions } from "./ui/actions.js";
 import { initInventory, toggleInventory, renderInventory, isInventoryOpen } from "./ui/inventory.js";
 import { initCombatUI, renderCombatUI, hideMobPanel } from "./ui/combat.js";
@@ -57,6 +57,7 @@ initInventory(handleAction);
 function updateUI(state) {
   renderMinimap(state);
   renderGear(state);
+  renderStats(state);
   renderHP(state);
   renderMana(state);
   renderXP(state);

@@ -1,13 +1,21 @@
 import { world, getMapBounds, getRoomAt } from "../game/world.js";
 
-const TILE_SIZE = 48;
-const GAP = 4;
+const TILE_SIZE = 38;
+const GAP = 2;
 
 const TYPE_COLORS = {
-  tavern:  { bg: "bg-amber-900/60",  border: "border-amber-700" },
-  town:    { bg: "bg-stone-700/60",  border: "border-stone-500" },
-  forest:  { bg: "bg-green-900/60",  border: "border-green-700" },
-  dungeon: { bg: "bg-slate-800/60",  border: "border-slate-600" },
+  tavern:    { bg: "bg-amber-900/60",   border: "border-amber-700" },
+  town:      { bg: "bg-stone-700/60",   border: "border-stone-500" },
+  forest:    { bg: "bg-green-900/60",   border: "border-green-700" },
+  dungeon:   { bg: "bg-slate-800/60",   border: "border-slate-600" },
+  combat:    { bg: "bg-red-900/50",     border: "border-red-800" },
+  trail:     { bg: "bg-stone-800/50",   border: "border-stone-600" },
+  field:     { bg: "bg-lime-900/50",    border: "border-lime-700" },
+  graveyard: { bg: "bg-purple-900/50",  border: "border-purple-700" },
+  cave:      { bg: "bg-amber-950/60",   border: "border-amber-800" },
+  water:     { bg: "bg-cyan-900/50",    border: "border-cyan-700" },
+  ruins:     { bg: "bg-stone-800/60",   border: "border-stone-500" },
+  market:    { bg: "bg-yellow-900/50",  border: "border-yellow-700" },
 };
 
 const DEFAULT_COLORS = { bg: "bg-gray-800/60", border: "border-gray-600" };
@@ -56,7 +64,7 @@ export function renderMinimap(state) {
 
       if (!isVisited) {
         tile.classList.add("bg-gray-900/40", "border", "border-gray-800/50");
-        tile.innerHTML = `<span class="text-gray-700 text-lg">?</span>`;
+        tile.innerHTML = `<span class="text-gray-700 text-sm">?</span>`;
         container.appendChild(tile);
         continue;
       }
@@ -68,30 +76,30 @@ export function renderMinimap(state) {
         tile.classList.add("ring-2", "ring-emerald-400", "shadow-lg", "shadow-emerald-400/20");
       }
 
-      tile.innerHTML = `<span class="text-xl leading-none select-none">${roomData.icon}</span>`;
+      tile.innerHTML = `<span class="text-base leading-none select-none">${roomData.icon}</span>`;
 
       if (isCurrent) {
         const pulse = document.createElement("div");
-        pulse.className = "absolute -top-1 -right-1 w-3 h-3 bg-emerald-400 rounded-full animate-pulse";
+        pulse.className = "absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 rounded-full animate-pulse";
         tile.appendChild(pulse);
       }
 
       const hasExits = Object.entries(roomData.exits);
       for (const [dir] of hasExits) {
         const connector = document.createElement("div");
-        connector.className = "absolute bg-gray-600/60";
+        connector.className = "absolute bg-gray-500/70";
         switch (dir) {
           case "north":
-            connector.className += " w-0.5 h-2 left-1/2 -translate-x-1/2 -top-2";
+            connector.className += " w-0.5 h-0.5 left-1/2 -translate-x-1/2 -top-0.5";
             break;
           case "south":
-            connector.className += " w-0.5 h-2 left-1/2 -translate-x-1/2 -bottom-2";
+            connector.className += " w-0.5 h-0.5 left-1/2 -translate-x-1/2 -bottom-0.5";
             break;
           case "east":
-            connector.className += " h-0.5 w-2 top-1/2 -translate-y-1/2 -right-2";
+            connector.className += " h-0.5 w-0.5 top-1/2 -translate-y-1/2 -right-0.5";
             break;
           case "west":
-            connector.className += " h-0.5 w-2 top-1/2 -translate-y-1/2 -left-2";
+            connector.className += " h-0.5 w-0.5 top-1/2 -translate-y-1/2 -left-0.5";
             break;
         }
         tile.appendChild(connector);

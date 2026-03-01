@@ -117,6 +117,40 @@ export const items = {
     stats: { constitution: 2 },
     color: "#8b6914",
   },
+  "crystal shard": {
+    name: "Crystal Shard",
+    type: "misc",
+    description: "A sliver of pale crystal that hums faintly when held.",
+    color: "#a5f3fc",
+  },
+  "silver pendant": {
+    name: "Silver Pendant",
+    type: "gear",
+    slot: "amulet",
+    description: "A tarnished silver pendant with an etched rune.",
+    stats: { intellect: 2 },
+    color: "#c0c0c0",
+  },
+  "grave dust": {
+    name: "Grave Dust",
+    type: "misc",
+    description: "A small pouch of fine grey dust scraped from a headstone.",
+    color: "#a1a1aa",
+  },
+  "farmer's gloves": {
+    name: "Farmer's Gloves",
+    type: "gear",
+    slot: "gloves",
+    description: "Thick, dirt-stained work gloves. Surprisingly sturdy.",
+    stats: { strength: 2 },
+    color: "#92400e",
+  },
+  "mossy stone": {
+    name: "Mossy Stone",
+    type: "misc",
+    description: "A smooth, flat stone covered in soft green moss. It feels oddly warm.",
+    color: "#4ade80",
+  },
 };
 
 export function getItem(name) {

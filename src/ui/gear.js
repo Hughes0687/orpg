@@ -1,5 +1,6 @@
 import { SLOT_LABELS, SLOT_ICONS, getItem } from "../game/items.js";
 import { xpForLevel } from "../game/leveling.js";
+import { getEffectiveStats } from "../game/combat.js";
 
 const LAYOUT = [
   [null,    "helmet",    null],
@@ -19,6 +20,15 @@ let manaText = null;
 let xpBarFill = null;
 let xpText = null;
 let levelText = null;
+let statsGrid = null;
+
+const STAT_META = {
+  strength:  { label: "STR", icon: "\u2694\uFE0F", color: "text-red-400" },
+  defense:   { label: "DEF", icon: "\uD83D\uDEE1\uFE0F", color: "text-blue-400" },
+  intellect: { label: "INT", icon: "\uD83D\uDCD6", color: "text-purple-400" },
+  speed:     { label: "SPD", icon: "\u26A1",       color: "text-yellow-400" },
+  luck:      { label: "LCK", icon: "\uD83C\uDF40", color: "text-green-400" },
+};
 
 export function initGear() {
   container = document.getElementById("gear-slots");
@@ -29,6 +39,7 @@ export function initGear() {
   xpBarFill = document.getElementById("xp-bar-fill");
   xpText = document.getElementById("xp-text");
   levelText = document.getElementById("level-text");
+  statsGrid = document.getElementById("stats-grid");
 }
 
 export function renderGear(state) {
@@ -42,7 +53,7 @@ export function renderGear(state) {
       const cell = document.createElement("div");
 
       if (!slotId) {
-        cell.className = "w-10 h-10";
+        cell.className = "w-12 h-12";
         container.appendChild(cell);
         continue;
       }
@@ -51,7 +62,7 @@ export function renderGear(state) {
       const isEmpty = !equippedName;
       const item = equippedName ? getItem(equippedName) : null;
 
-      cell.className = "w-10 h-10 rounded border flex items-center justify-center relative group cursor-default transition-colors";
+      cell.className = "w-12 h-12 rounded border flex items-center justify-center relative group cursor-default transition-colors";
 
       if (isEmpty) {
         cell.classList.add("border-gray-700/60", "bg-gray-800/40", "text-gray-600");
@@ -118,6 +129,39 @@ export function renderMana(state) {
 
   manaBarFill.style.width = `${pct}%`;
   manaText.textContent = `${mana} / ${maxMana}`;
+}
+
+export function renderStats(state) {
+  if (!statsGrid) return;
+
+  const base = state.player.stats;
+  const effective = getEffectiveStats(state.player);
+
+  statsGrid.innerHTML = "";
+
+  for (const [stat, meta] of Object.entries(STAT_META)) {
+    const baseVal = base[stat] || 0;
+    const totalVal = effective[stat] || 0;
+    const bonus = totalVal - baseVal;
+
+    const row = document.createElement("div");
+    row.className = "contents";
+
+    const label = document.createElement("span");
+    label.className = `${meta.color} font-bold`;
+    label.textContent = `${meta.icon} ${meta.label}`;
+
+    const value = document.createElement("span");
+    value.className = "text-gray-300 text-right";
+    if (bonus > 0) {
+      value.innerHTML = `${baseVal} <span class="text-emerald-400">+${bonus}</span>`;
+    } else {
+      value.textContent = `${totalVal}`;
+    }
+
+    statsGrid.appendChild(label);
+    statsGrid.appendChild(value);
+  }
 }
 
 export function showGear() {

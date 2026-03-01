@@ -1,6 +1,7 @@
 import { getItem } from "./items.js";
 import { getRandomMob } from "./mobs.js";
 import { checkLevelUp } from "./leveling.js";
+import { world } from "./world.js";
 
 let mob = null;
 let playerTimer = null;
@@ -77,7 +78,8 @@ function endCombatVictory(state) {
   combatState = null;
 
   setTimeout(() => {
-    if (state.currentRoom === "outskirts") {
+    const room = world[state.currentRoom];
+    if (room?.type === "combat") {
       callbacks.onLog("\n  Another creature emerges from the darkness...\n");
       startCombat(state, callbacks);
     }
